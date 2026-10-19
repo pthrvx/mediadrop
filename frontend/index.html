@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d12">
+  <title>MediaDrop — Local media utility</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell" id="top">
+    <aside class="sidebar">
+      <a class="brand" href="#top" aria-label="MediaDrop home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="brand-word">media<span>drop</span></span>
+        <span class="brand-version">LOCAL</span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <a class="nav-item active" href="#input-title"><span class="nav-glyph">↳</span> New download</a>
+      <a class="nav-item" href="#queue-section"><span class="nav-glyph">▤</span> Download queue <b id="nav-count">0</b></a>
+      <a class="nav-item" href="#how"><span class="nav-glyph">ⓘ</span> Workflow</a>
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-status">
+        <div class="status-row"><span class="status-dot"></span><strong>Local API</strong><span class="status-value" id="api-state">checking…</span></div>
+        <div class="status-rule"></div>
+        <div class="side-micro">PROCESSING MODE</div>
+        <div class="side-local">This device only <span class="local-lock">⌑</span></div>
+        <div class="side-address">127.0.0.1:8000</div>
+      </div>
+      <div class="sidebar-foot"><span>MEDIADROP</span><span>v0.2 / TERMUX</span></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="breadcrumb"><span>WORKSPACE</span><span class="slash">/</span><strong>DOWNLOADS</strong></div>
+        <div class="top-right">
+          <span class="env-pill"><span></span> LOCAL FIRST</span>
+          <button class="icon-btn" id="theme-toggle" title="Toggle light mode" aria-label="Toggle light mode">◐</button>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="hero-copy-block">
+          <div class="eyebrow"><span class="pulse"></span> PERSONAL MEDIA UTILITY <span class="eyebrow-line"></span> 01</div>
+          <h1>Media in.<br><span>Clutter out.</span></h1>
+          <p>Collect a link, choose your format, and keep the file on your device. No extra ceremony.</p>
+          <div class="hero-meta"><span>01 <i>ADD LINKS</i></span><span>02 <i>CONFIGURE</i></span><span>03 <i>DOWNLOAD</i></span></div>
+        </div>
+        <div class="hero-mark" aria-hidden="true">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <div class="mark-core"><span>MD</span><i></i></div>
+          <span class="orbit-label label-top">LOCAL / 001</span><span class="orbit-label label-bottom">MEDIA PIPELINE</span>
+        </div>
+      </section>
+
+      <section class="input-panel panel" aria-labelledby="input-title">
+        <div class="panel-heading">
+          <div><div class="section-kicker">01 / SOURCE</div><h2 id="input-title">Add media sources</h2></div>
+          <div class="supported">YOUTUBE <i>·</i> TIKTOK <i>·</i> INSTAGRAM</div>
+        </div>
+        <div id="url-list" class="url-list"></div>
+        <div class="input-actions"><button id="add-url" class="text-button"><span>＋</span> Add another URL</button><span class="hint">One URL per row <i>·</i> max 10</span></div>
+        <div class="panel-footer">
+          <div class="privacy-note"><span class="privacy-icon">⌑</span><span><strong>Local by design</strong><small>Metadata is requested from your local backend.</small></span></div>
+          <button id="inspect-btn" class="primary-btn">Inspect links <span>↗</span></button>
+        </div>
+        <div id="input-error" class="error-message" role="alert" hidden></div>
+      </section>
+
+      <section class="queue-section" id="queue-section">
+        <div class="queue-head">
+          <div><div class="section-kicker">02 / WORK IN PROGRESS</div><h2>Download queue <span class="count-pill" id="queue-count">0</span></h2></div>
+          <div class="queue-tools"><button id="clear-queue" class="subtle-btn" disabled>Clear queue</button><button id="download-ready" class="subtle-btn" disabled>Download all <span>↗</span></button></div>
+        </div>
+        <div id="queue" class="queue-grid">
+          <div class="empty-state"><div class="empty-icon">↳</div><strong>Nothing in the queue.</strong><p>Add a media URL above. Its metadata and output options will appear here.</p><span class="mono">WAITING_FOR_INPUT</span></div>
+        </div>
+      </section>
+
+      <section class="how-panel" id="how">
+        <div class="how-head"><div class="section-kicker">DESIGNED TO STAY SIMPLE</div><span class="mono">LOCAL WORKFLOW / 03 STEPS</span></div>
+        <div class="steps">
+          <div><span>01</span><strong>Paste a source</strong><p>Use one URL or build a small batch.</p></div>
+          <div><span>02</span><strong>Choose the output</strong><p>Set format and quality for each item.</p></div>
+          <div><span>03</span><strong>Keep the file</strong><p>Follow status, then save the result.</p></div>
+        </div>
+      </section>
+      <footer><span>MEDIADROP <i>—</i> LOCAL FIRST</span><span>Small interface. Straightforward workflow.</span></footer>
+    </main>
+  </div>
+
+  <template id="url-row-template">
+    <div class="url-row">
+      <span class="row-index">01</span>
+      <div class="url-input-wrap"><span class="link-icon">↗</span><input type="url" inputmode="url" placeholder="https://…" autocomplete="url" aria-label="Media URL"><button class="paste-btn" type="button" title="Paste from clipboard">PASTE</button></div>
+      <button class="remove-url" type="button" aria-label="Remove URL">×</button>
+    </div>
+  </template>
+  <script src="app.js"></script>
+</body>
+</html>

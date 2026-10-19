@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+.venv/
+backend/downloads/*
+!backend/downloads/.gitkeep
+.env
+.DS_Store
